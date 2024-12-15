@@ -405,6 +405,7 @@ public class MainActivity extends AppCompatActivity {
         else{
             return super.onOptionsItemSelected(item);
         }
+
     }
 
     private void reset() {
