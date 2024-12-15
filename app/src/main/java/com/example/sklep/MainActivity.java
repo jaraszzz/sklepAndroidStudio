@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Icon;
@@ -38,6 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     //pl ang
@@ -191,7 +194,6 @@ public class MainActivity extends AppCompatActivity {
             String selectedWebcam = spinnerCamera.getSelectedItem().toString();
             price += Integer.parseInt(selectedWebcam.split(" ")[selectedWebcam.split(" ").length - 2]);
         }
-
         textPrice.setText("Razem: " + price + " zł");
     }
 
@@ -255,8 +257,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public void sendEmail(){
-        String emailAddress = " ";
-        String text = " ";
+        String emailAddress = "test@gmail.com";
+        String text = messageCreator();
 
         if (!emailAddress.isEmpty() && !text.isEmpty()) {
             Intent mailIntent = new Intent(Intent.ACTION_SENDTO);
@@ -376,10 +378,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
 
         }
-        else if(item.getItemId() == R.id.new_order){
-            startActivity(new Intent(this, MainActivity.class));
-            return true;
-        }
         else if (item.getItemId() == R.id.send_sms) {
             Toast.makeText(this, "Sending SMS", Toast.LENGTH_SHORT).show();
             sendWithSmsManager();
@@ -399,10 +397,16 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Cart saved", Toast.LENGTH_SHORT).show();
             return true;
         }
+        else if (item.getItemId() == R.id.send_email) {
+            sendEmail();
+            Toast.makeText(this, "Sending E-mail", Toast.LENGTH_SHORT).show();
+            return true;
+        }
         else{
             return super.onOptionsItemSelected(item);
         }
     }
+
     private void reset() {
         customer.setText("");
         checkboxKeyboard.setChecked(false);
@@ -430,8 +434,8 @@ public class MainActivity extends AppCompatActivity {
 
         String[] temp = textPrice.getText().toString().split(" ");
         int totalPrice = Integer.parseInt(temp[1]);
-
-        String message = selectedComputer + " Ilość: "+ quantity + " ";
+        String message = "";
+        message = selectedComputer + " Ilość: "+ quantity + " ";
 
         if(selectedKeyboard != null){
             message += selectedKeyboard + " ";
@@ -440,8 +444,7 @@ public class MainActivity extends AppCompatActivity {
         }if(selectedWebcam != null){
             message += selectedWebcam + " ";
         }
-
-        message += "Total Price: " + totalPrice;
+        message += "Razem: " + totalPrice;
 
         return message;
     }

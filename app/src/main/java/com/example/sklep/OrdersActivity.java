@@ -23,7 +23,6 @@ public class OrdersActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
-
         setSupportActionBar(findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Zamówienia");
@@ -49,6 +48,7 @@ public class OrdersActivity extends AppCompatActivity {
                         "\nAccesory: " + cursor.getString(6) +
                         "\nOrder Date: " + cursor.getString(7) +
                         "\nTotal Price: " + cursor.getInt(8);
+
                 orders.add(orderDetails);
             } while (cursor.moveToNext());
         }

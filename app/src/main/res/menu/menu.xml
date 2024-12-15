@@ -1,27 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/new_order"
-        android:title="Złóż zamówienie" />
-    <item
         android:id="@+id/orders_list"
         android:title="Zamówienia" />
     <item
         android:id="@+id/send_sms"
         android:title="Wyslij sms z zawartoscią koszyka" />
     <item
+        android:id="@+id/send_email"
+        android:title="Wyslij mail z zawartoscią koszyka" />
+    <item
+        android:id="@+id/save_cart"
+        android:title="Zapisz ustawienia" />
+    <item
         android:id="@+id/share_cart"
         android:title="Udostępnij koszyk" />
     <item
         android:id="@+id/autor"
         android:title="O autorze" />
-    <item
-        android:id="@+id/save_cart"
-        android:title="Zapisz ustawienia" />
-    <item
-        android:id="@+id/jezyk_polski"
-        android:title="Zmien jezyk na polski" />
-    <item
-        android:id="@+id/jezyk_angielski"
-        android:title="Zmien jezyk na angielski" />
+
 </menu>

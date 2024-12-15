@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/customer"
-            android:hint="Podaj swoje imię i nazwisko"
+            android:hint="Podaj swoje imie i nazwisko"
             android:textColor="@android:color/white"
             android:textColorHint="@color/dark_hint"
             android:layout_marginTop="16dp"
@@ -34,7 +34,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Wybierz rodzaj komputera"
+            android:text="Wybierz typ komputera"
             android:layout_marginTop="16dp"
             android:textColor="@android:color/white"
             android:textStyle="bold"
@@ -103,7 +103,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/checkbox_keyboard"
             android:layout_marginTop="16dp"
-            android:text="Dodaj klawiaturę"
+            android:text="Dodaj klawiature"
             android:textColor="@android:color/white"
             />
 
@@ -138,7 +138,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/checkbox_mouse"
             android:layout_marginTop="16dp"
-            android:text="Dodaj myszkę"
+            android:text="Dodaj mysz"
             android:textColor="@android:color/white"
             />
 
@@ -173,7 +173,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/checkbox_camera"
             android:layout_marginTop="16dp"
-            android:text="Dodaj kamerkę lub monitor"
+            android:text="Dodaj kamerę lub monitor"
             android:textColor="@android:color/white"
             />
 
@@ -221,7 +221,7 @@
             android:id="@+id/bsave_order"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/dark_hint"
-            android:text="Zapisz zamówienie"
+            android:text="Złóż zamówienie"
             android:textColor="@android:color/white"
             android:textAllCaps="false"
             android:padding="12dp"
