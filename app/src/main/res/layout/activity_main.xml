@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/toolbar"
+            android:background="@color/dark_toolbar"
+            android:elevation="4dp"
+            android:titleTextColor="@android:color/white"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/customer"
+            android:hint="Podaj swoje imię i nazwisko"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/dark_hint"
+            android:layout_marginTop="16dp"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wybierz rodzaj komputera"
+            android:layout_marginTop="16dp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp">
+
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_computer"
+                android:layout_weight="1"
+                android:padding="8dp"
+                android:background="@drawable/spinner_background"
+                />
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/image_computer"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_placeholder"
+                />
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Podaj ilość"
+            android:layout_marginTop="16dp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_quantity_value"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:text="1"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            />
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/quantity_value"
+            android:max="9"
+            android:layout_marginTop="8dp"
+            />
+
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkbox_keyboard"
+            android:layout_marginTop="16dp"
+            android:text="Dodaj klawiaturę"
+            android:textColor="@android:color/white"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp">
+
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_keyboard"
+                android:layout_weight="1"
+                android:padding="8dp"
+                android:background="@drawable/spinner_background"
+                />
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/image_keyboard"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_placeholder"
+                />
+        </LinearLayout>
+
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkbox_mouse"
+            android:layout_marginTop="16dp"
+            android:text="Dodaj myszkę"
+            android:textColor="@android:color/white"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp">
+
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_mouse"
+                android:layout_weight="1"
+                android:padding="8dp"
+                android:background="@drawable/spinner_background"
+                />
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/image_mouse"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_placeholder"
+                />
+        </LinearLayout>
+
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkbox_camera"
+            android:layout_marginTop="16dp"
+            android:text="Dodaj kamerkę lub monitor"
+            android:textColor="@android:color/white"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp">
+
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_camera"
+                android:layout_weight="1"
+                android:padding="8dp"
+                android:background="@drawable/spinner_background"
+                />
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/image_camera"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_placeholder"
+                />
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_price"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="Razem: "
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bsave_order"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/dark_hint"
+            android:text="Zapisz zamówienie"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:padding="12dp"
+            />
+    </LinearLayout>
+</ScrollView>
