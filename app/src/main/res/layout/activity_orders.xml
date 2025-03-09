@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/text_order_list"
-        android:text="Złożone zamówienia:"
+        android:text="@string/placed_orders"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textStyle="bold"

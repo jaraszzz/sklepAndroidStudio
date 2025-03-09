@@ -12,6 +12,8 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,6 +38,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,17 +46,17 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    //pl ang
     //email w tle
-    private DatabaseHelper dbHelper  ;
+    //zapisanie zdjec w bazie
+    private DatabaseHelper dbHelper;
     private SmsManager smsManager;
     private EditText customer;
-    private Spinner spinnerComputer,spinnerKeyboard,spinnerMouse,spinnerCamera;
+    private Spinner spinnerComputer, spinnerKeyboard, spinnerMouse, spinnerCamera;
     private SeekBar quantityValue;
-    private CheckBox checkboxKeyboard,checkboxMouse,checkboxWebcam;
-    private TextView textQuantityValue,textPrice;
+    private CheckBox checkboxKeyboard, checkboxMouse, checkboxWebcam;
+    private TextView textQuantityValue, textPrice, user;
     private Button buttonSaveOrder;
-    private ImageView imageComputer,imageKeyboard,imageMouse,imageCamera;
+    private ImageView imageComputer, imageKeyboard, imageMouse, imageCamera;
     public static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 1;
 
     @Override
@@ -62,12 +65,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setSupportActionBar(findViewById(R.id.toolbar));
-        getSupportActionBar().setTitle("Złóż Zamówienie");
+        getSupportActionBar().setTitle(R.string.place_order);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
+
+        SharedPreferences temp = getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+        String username = temp.getString("username", null);
+        user = findViewById(R.id.user);
+        user.setText(getString(R.string.loggedas) + " " + username);
 
         dbHelper = new DatabaseHelper(this);
 
-        ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.SEND_SMS},MY_PERMISSIONS_REQUEST_SEND_SMS);
+        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
 
         customer = findViewById(R.id.customer);
 
@@ -121,10 +129,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
 
         checkboxKeyboard.setOnCheckedChangeListener((buttonView, isChecked) -> calculatePrice());
@@ -159,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
         String[] computers = {"Desktop - 1000 zł", "Laptop - 1500 zł", "GamingPC - 2000 zł"};
         String[] keyboards = {"Membrane - 100 zł", "Mechanical - 125 zł", "Wireless - 150 zł"};
         String[] mice = {"Optical - 90 zł", "Wireless - 100 zł", "Gaming Mouse - 120 zł"};
-        String[] webcams = {"Webcam - 200 zł", "Monitor 60Hz - 500 zł","Monitor 144Hz - 700 zł"};
+        String[] webcams = {"Webcam - 200 zł", "Monitor 60Hz - 500 zł", "Monitor 144Hz - 700 zł"};
 
         setupSpinner(spinnerComputer, computers);
         setupSpinner(spinnerKeyboard, keyboards);
@@ -204,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
         String selectedWebcam = checkboxWebcam.isChecked() ? spinnerCamera.getSelectedItem().toString() : null;
 
         if (customer.getText().toString().isEmpty()) {
-            customer.setError("To pole nie może być puste!");
+            customer.setError(getString(R.string.empty_field));
             customer.requestFocus();
             return;
         }
@@ -235,7 +245,8 @@ public class MainActivity extends AppCompatActivity {
 
         reset();
     }
-    private void shareCart(){
+
+    private void shareCart() {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT, messageCreator());
@@ -247,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void sendSmsCart(){
+    private void sendSmsCart() {
         Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + Uri.encode("123456789")));
         intent.putExtra("sms_body", messageCreator());
         try {
@@ -256,7 +267,8 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "SMS FAILED", Toast.LENGTH_SHORT).show();
         }
     }
-    public void sendEmail(){
+
+    public void sendEmail() {
         String emailAddress = "test@gmail.com";
         String text = messageCreator();
 
@@ -266,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
             mailIntent.putExtra(Intent.EXTRA_SUBJECT, "New Message");
             mailIntent.putExtra(Intent.EXTRA_TEXT, text);
             try {
-                startActivity(Intent.createChooser(mailIntent,"Send Email"));
+                startActivity(Intent.createChooser(mailIntent, "Send Email"));
             } catch (android.content.ActivityNotFoundException ex) {
                 Toast.makeText(this, "No email client installed.", Toast.LENGTH_SHORT).show();
             }
@@ -275,20 +287,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void addDynamicShortcuts(Context context){
+    public void addDynamicShortcuts(Context context) {
         ShortcutManager shortcutManager = (ShortcutManager) getSystemService(Context.SHORTCUT_SERVICE);
         List<ShortcutInfo> shortcutInfoList = new ArrayList<>();
 
         ShortcutInfo shortcutZlozZamowienia = new ShortcutInfo.Builder(context, "zzamowienia_shortcut")
-                .setShortLabel("zloz zamowienie")
-                .setLongLabel("zloz zamowienie")
+                .setShortLabel(getString(R.string.place_order))
+                .setLongLabel(getString(R.string.place_order))
                 .setIcon(Icon.createWithResource(context, R.drawable.ic_zloz_zamowienia_foreground))
                 .setIntent(new Intent(Intent.ACTION_VIEW, null, context, MainActivity.class))
                 .build();
 
         ShortcutInfo shortcutZamowienia = new ShortcutInfo.Builder(context, "zamowienia_shortcut")
-                .setShortLabel("pokaz liste zamówien")
-                .setLongLabel("pokaz liste zamówien")
+                .setShortLabel(getString(R.string.show_order_list))
+                .setLongLabel(getString(R.string.show_order_list))
                 .setIcon(Icon.createWithResource(context, R.drawable.ic_zamowienia_foreground))
                 .setIntent(new Intent(Intent.ACTION_VIEW, null, context, OrdersActivity.class))
                 .build();
@@ -300,35 +312,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void saveCart() {
+        SharedPreferences userPrefs = getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+        String username = userPrefs.getString("username", null);
+
         SharedPreferences sharedPreferences = getSharedPreferences("CartPreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putString("customer",customer.getText().toString());
-        editor.putString("selectedComputer", spinnerComputer.getSelectedItem().toString());
-        editor.putString("selectedKeyboard", checkboxKeyboard.isChecked() ? spinnerKeyboard.getSelectedItem().toString() : null);
-        editor.putString("selectedMouse", checkboxMouse.isChecked() ? spinnerMouse.getSelectedItem().toString() : null);
-        editor.putString("selectedWebcam", checkboxWebcam.isChecked() ? spinnerCamera.getSelectedItem().toString() : null);
-        editor.putInt("quantity", quantityValue.getProgress() + 1);
+        editor.putString(username + "_customer", customer.getText().toString());
+        editor.putString(username + "_selectedComputer", spinnerComputer.getSelectedItem().toString());
+        editor.putString(username + "_selectedKeyboard", checkboxKeyboard.isChecked() ? spinnerKeyboard.getSelectedItem().toString() : null);
+        editor.putString(username + "_selectedMouse", checkboxMouse.isChecked() ? spinnerMouse.getSelectedItem().toString() : null);
+        editor.putString(username + "_selectedWebcam", checkboxWebcam.isChecked() ? spinnerCamera.getSelectedItem().toString() : null);
+        editor.putInt(username + "_quantity", quantityValue.getProgress() + 1);
 
         String[] temp = textPrice.getText().toString().split(" ");
         int totalPrice = Integer.parseInt(temp[1]);
-        editor.putInt("totalPrice", totalPrice);
+        editor.putInt(username + "_totalPrice", totalPrice);
 
         editor.apply();
-
-        Toast.makeText(this, "cart saved", Toast.LENGTH_SHORT).show();
     }
 
+
     private void restoreCart() {
+        SharedPreferences userPrefs = getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+        String username = userPrefs.getString("username", null);
+
         SharedPreferences sharedPreferences = getSharedPreferences("CartPreferences", Context.MODE_PRIVATE);
 
-        String customerString = sharedPreferences.getString("customer", null);
-        String selectedComputer = sharedPreferences.getString("selectedComputer", "Desktop - 1000 zł");
-        String selectedKeyboard = sharedPreferences.getString("selectedKeyboard", null);
-        String selectedMouse = sharedPreferences.getString("selectedMouse", null);
-        String selectedWebcam = sharedPreferences.getString("selectedWebcam", null);
-        int quantity = sharedPreferences.getInt("quantity", 1);
-        int totalPrice = sharedPreferences.getInt("totalPrice", 1000);
+        String customerString = sharedPreferences.getString(username + "_customer", "");
+        String selectedComputer = sharedPreferences.getString(username + "_selectedComputer", "Desktop - 1000 zł");
+        String selectedKeyboard = sharedPreferences.getString(username + "_selectedKeyboard", null);
+        String selectedMouse = sharedPreferences.getString(username + "_selectedMouse", null);
+        String selectedWebcam = sharedPreferences.getString(username + "_selectedWebcam", null);
+        int quantity = sharedPreferences.getInt(username + "_quantity", 1);
+        int totalPrice = sharedPreferences.getInt(username + "_totalPrice", 1000);
 
         customer.setText(customerString);
         setSpinnerSelection(spinnerComputer, selectedComputer);
@@ -337,30 +354,30 @@ public class MainActivity extends AppCompatActivity {
         setSpinnerSelection(spinnerCamera, selectedWebcam);
 
         quantityValue.setProgress(quantity - 1);
+        textQuantityValue.setText(String.valueOf(quantity));
 
-        textPrice.setText("Razem: " + totalPrice + " zł");
+        textPrice.setText(getString(R.string.total) + " " + totalPrice + " zł");
 
         checkboxKeyboard.setChecked(selectedKeyboard != null);
         checkboxMouse.setChecked(selectedMouse != null);
         checkboxWebcam.setChecked(selectedWebcam != null);
     }
 
-    private void sendWithSmsManager(){
-        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
+
+    private void sendWithSmsManager() {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
             String destinationAddress = "605679136";
             String text = messageCreator();
-            if(!destinationAddress.equals("") && !text.equals("")){
+            if (!destinationAddress.equals("") && !text.equals("")) {
                 smsManager = SmsManager.getDefault();
                 smsManager.sendTextMessage(destinationAddress, null, text, null, null);
                 Toast.makeText(MainActivity.this, "SMS send with smsManager", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(MainActivity.this, "Permission denied", Toast.LENGTH_SHORT).show();
             }
-        }
-        else{
+        } else {
             Toast.makeText(this, "No Permission", Toast.LENGTH_SHORT).show();
-            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.SEND_SMS},MY_PERMISSIONS_REQUEST_SEND_SMS);
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
         }
 
     }
@@ -373,39 +390,48 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.orders_list) {
+        if (item.getItemId() == R.id.orders_list) {
             startActivity(new Intent(this, OrdersActivity.class));
             return true;
 
-        }
-        else if (item.getItemId() == R.id.send_sms) {
+        } else if (item.getItemId() == R.id.send_sms) {
             Toast.makeText(this, "Sending SMS", Toast.LENGTH_SHORT).show();
             sendWithSmsManager();
             return true;
-        }
-        else if (item.getItemId() == R.id.share_cart) {
+        } else if (item.getItemId() == R.id.share_cart) {
             Toast.makeText(this, "Sharing your Cart", Toast.LENGTH_SHORT).show();
             shareCart();
             return true;
-        }
-        else if (item.getItemId() == R.id.autor) {
+        } else if (item.getItemId() == R.id.autor) {
             Toast.makeText(this, "Autor: Jarosław Matyjasik", Toast.LENGTH_SHORT).show();
             return true;
-        }
-        else if (item.getItemId() == R.id.save_cart) {
+        } else if (item.getItemId() == R.id.save_cart) {
             saveCart();
             Toast.makeText(this, "Cart saved", Toast.LENGTH_SHORT).show();
             return true;
-        }
-        else if (item.getItemId() == R.id.send_email) {
+        } else if (item.getItemId() == R.id.send_email) {
             sendEmail();
             Toast.makeText(this, "Sending E-mail", Toast.LENGTH_SHORT).show();
             return true;
-        }
-        else{
+        } else if (item.getItemId() == R.id.logout) {
+            logOut();
+            return true;
+        } else {
             return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    private void logOut() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isLoggedIn", false);
+        editor.apply();
+        Toast.makeText(this, "User logged out", Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     private void reset() {
@@ -425,7 +451,7 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    private String messageCreator(){
+    private String messageCreator() {
         String selectedComputer = spinnerComputer.getSelectedItem().toString();
         String selectedKeyboard = checkboxKeyboard.isChecked() ? spinnerKeyboard.getSelectedItem().toString() : null;
         String selectedMouse = checkboxMouse.isChecked() ? spinnerMouse.getSelectedItem().toString() : null;
@@ -436,17 +462,20 @@ public class MainActivity extends AppCompatActivity {
         String[] temp = textPrice.getText().toString().split(" ");
         int totalPrice = Integer.parseInt(temp[1]);
         String message = "";
-        message = selectedComputer + " Ilość: "+ quantity + " ";
+        message = selectedComputer + " " + getString(R.string.quantity) + quantity + " ";
 
-        if(selectedKeyboard != null){
+        if (selectedKeyboard != null) {
             message += selectedKeyboard + " ";
-        }if(selectedMouse != null){
+        }
+        if (selectedMouse != null) {
             message += selectedMouse + " ";
-        }if(selectedWebcam != null){
+        }
+        if (selectedWebcam != null) {
             message += selectedWebcam + " ";
         }
-        message += "Razem: " + totalPrice;
+        message += getString(R.string.total) + totalPrice;
 
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         return message;
     }
 
@@ -459,5 +488,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 }

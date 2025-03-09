@@ -20,11 +20,22 @@
             android:titleTextColor="@android:color/white"
             />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_computer_type"
+            android:layout_marginTop="16dp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:id="@+id/user"
+            />
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/customer"
-            android:hint="Podaj swoje imie i nazwisko"
+            android:hint="@string/enter_name"
             android:textColor="@android:color/white"
             android:textColorHint="@color/dark_hint"
             android:layout_marginTop="16dp"
@@ -34,7 +45,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Wybierz typ komputera"
+            android:text="@string/choose_computer_type"
             android:layout_marginTop="16dp"
             android:textColor="@android:color/white"
             android:textStyle="bold"
@@ -70,7 +81,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Podaj ilość"
+            android:text="@string/enter_quantity"
             android:layout_marginTop="16dp"
             android:textColor="@android:color/white"
             android:textStyle="bold"
@@ -103,7 +114,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/checkbox_keyboard"
             android:layout_marginTop="16dp"
-            android:text="Dodaj klawiature"
+            android:text="@string/add_keyboard"
             android:textColor="@android:color/white"
             />
 
@@ -138,7 +149,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/checkbox_mouse"
             android:layout_marginTop="16dp"
-            android:text="Dodaj mysz"
+            android:text="@string/add_mouse"
             android:textColor="@android:color/white"
             />
 
@@ -173,7 +184,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/checkbox_camera"
             android:layout_marginTop="16dp"
-            android:text="Dodaj kamerę lub monitor"
+            android:text="@string/add_camera_monitor"
             android:textColor="@android:color/white"
             />
 
@@ -209,7 +220,7 @@
             android:id="@+id/text_price"
             android:layout_marginTop="24dp"
             android:gravity="center"
-            android:text="Razem: "
+            android:text="@string/total"
             android:textSize="18sp"
             android:textColor="@color/white"
             android:textStyle="bold"
@@ -221,7 +232,7 @@
             android:id="@+id/bsave_order"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/dark_hint"
-            android:text="Złóż zamówienie"
+            android:text="@string/place_order"
             android:textColor="@android:color/white"
             android:textAllCaps="false"
             android:padding="12dp"

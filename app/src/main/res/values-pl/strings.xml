@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">sklep</string>
+    <string name="enter_name">Podaj swoje imie i nazwisko</string>
+    <string name="choose_computer_type">Wybierz typ komputera</string>
+    <string name="enter_quantity">Poadj ilość:</string>
+    <string name="add_keyboard">Dodaj klawiature</string>
+    <string name="add_mouse">Dodaj mysz</string>
+    <string name="add_camera_monitor">Dodaj kamerę lub monitor</string>
+    <string name="total">Razem: </string>
+    <string name="place_order">Złóż zamówienie</string>
+    <string name="placed_orders">Złożone zamówienia:</string>
+    <string name="empty_field">To pole nie może być puste!</string>
+    <string name="show_order_list">Pokaż liste zamówień</string>
+    <string name="quantity">Ilość: </string>
+    <string name="orders">Zamówienia</string>
+    <string name="autor">O autorze</string>
+    <string name="send_sms_cart">Wyślij sms z zawartością koszyka</string>
+    <string name="send_mail_cart">Wyślij mail z zawartością koszyka</string>
+    <string name="save_cart">Zapisz ustawienia koszyka</string>
+    <string name="share_cart">Udostępnij koszyk</string>
+    <string name="show_user">Pokaz login aktywnego uzytkownika</string>
+    <string name="logout">Wyloguj</string>
+    <string name="loggedas">Obecnie zalogowano jako: </string>
+    <string name="username">Nazwa użytkownika</string>
+    <string name="password">Hasło</string>
+    <string name="login">Zaloguj</string>
+    <string name="register">Zarejestruj</string>
+    <string name="email">Email</string>
+</resources>
